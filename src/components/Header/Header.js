@@ -1,5 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router';
+import { Link } from "react-router-dom";
 import HeaderLogo from '../../img/header.png'
 
 
@@ -15,28 +16,25 @@ class Header extends React.Component {
     return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top">
       <div className="container">
-        <a className="navbar-brand" href="/">
+        <Link to="/" className="nav-link">
           <img src={ HeaderLogo } alt=""/>
-        </a>
+        </Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="/">
-                Главная
-              </a>
+              <Link to="/" className="nav-link">Главная</Link>
+            </li>
+            <li className="nav-item active">
+              <Link to="/requests" className="nav-link">Отправки</Link>
             </li>
             <li className="nav_item active">
-              <a className="nav-link" href="/tasks">
-                Задачи
-              </a>
+              <Link to="/tasks" className="nav-link">Задачи</Link>
             </li>
             <li className="nav_item active">
-              <a className="nav-link" href="#" onClick={() => this.logout()}>
-                Выход
-              </a>
+              <Link to="/" onClick={() => this.logout()} className="nav-link">Выход</Link>
             </li>
           </ul>
         </div>

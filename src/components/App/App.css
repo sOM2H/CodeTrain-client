@@ -2,6 +2,18 @@ body {
     background: #fff !important;
 }
 
+.passed{
+  color: green;
+}
+
+.failed{
+  color: red;
+}
+
+.queue{
+  color: gray;
+}
+
 .wrapper {
     margin-top: 80px;
     margin-bottom: 80px;

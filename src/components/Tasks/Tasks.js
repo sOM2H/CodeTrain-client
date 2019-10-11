@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 export default class Tasks extends React.Component {
@@ -27,7 +28,9 @@ export default class Tasks extends React.Component {
             <tbody>
              { this.state.tasks.map(task => 
                 <tr>
-                <td><a href={'/tasks/'+task.id}>{task.title}</a></td>
+                <td>
+                  <Link to={'/tasks/'+task.id}>{task.title}</Link>
+                  </td>
                 <td>{task.complexity}%</td>
                 </tr>
               )}
