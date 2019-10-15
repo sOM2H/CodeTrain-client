@@ -14,6 +14,7 @@ export default class Task extends React.Component {
   state = {
     task: [],
     tests: [],
+    requests: [],
     languages: [],
     language: 1,
     body: ""
@@ -29,9 +30,15 @@ export default class Task extends React.Component {
   componentDidMount() {   
     axios.get('http://localhost:3001/api/v1/tasks/'+this.props.match.params.task, config)
       .then(res => {
-        const task = res.data[0];
+        console.log(res.data)
+
+        const task = res.data["task"];
         this.setState({ task });
-        const tests = res.data[1];
+
+        const requests = res.data["requests"];
+        this.setState({ requests });
+
+        const tests = res.data["tests"];
         this.setState({ tests });
       })
 
@@ -55,7 +62,7 @@ export default class Task extends React.Component {
      await axios.post('http://localhost:3001/api/v1/requests',{
                         body: this.state.body,
                         language_id: this.state.language,
-                        task_id: this.state.task.id},
+                        task_id: this.state.task.id },
                         config)
       .then(res => {
         location.replace('/requests')
@@ -134,6 +141,49 @@ export default class Task extends React.Component {
           }}/>
           <br/>
           <Link to="#" onClick={() => this.send()} className="btn btn-outline-success">Отправить</Link>
+          <br/>
+          <h3>Решения:</h3>
+          <br/>
+          <table className="table">
+            <thead className="thead-dark">
+                <tr>
+                <th scope="col">№</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Пользователь</th>
+                <th scope="col">Задача</th>
+                <th scope="col">Язык</th>
+                <th scope="col">Результат</th>
+                <th scope="col">Тест</th>
+                </tr>
+            </thead>
+            <tbody>
+             { this.state.requests.map(request => 
+                <tr class={request.status === "Passed" ? "table-success" : (request.status === "Queue" ? "table-dark" : "table-danger")}>
+                  <td scope="row">
+                    <Link to={'/requests/'+request.id}>{request.id}</Link>
+                  </td>
+                  <td>
+                    {request.created_at}
+                  </td>
+                  <td>
+                    {request.user}
+                  </td>
+                  <td>
+                     <Link to={'/tasks/'+request.task_id}>{request.task}</Link>
+                  </td>
+                  <td>
+                    {request.language}
+                  </td>
+                  <td class={request.status === "Passed" ? "passed" : (request.status === "Queue" ? "queue" : "failed")}>
+                    {request.status}
+                  </td>
+                  <td >
+                    {request.logs}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+        </table>
       </div>
     )
   }
